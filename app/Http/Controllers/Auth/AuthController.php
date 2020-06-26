@@ -13,10 +13,12 @@ use mysql_xdevapi\Exception;
 class AuthController extends Controller
 {
     protected $authrepository;
+    protected $registerFormRequest;
 
-    public function __construct(AuthRepository $AuthRepository)
+    public function __construct(AuthRepository $AuthRepository,RegisterFormRequest $registerFormRequest)
     {
        $this->authrepository = $AuthRepository;
+       $this->registerFormRequest = $registerFormRequest;
     }
     /**
      * Store a newly created resource in storage.
@@ -26,9 +28,11 @@ class AuthController extends Controller
      * @register function
      * public route
      */
-    public function register(RegisterFormRequest $request)
+    public function register(Request $request)
     {
         $input = $request->all();
+        $validateRequest = $this->registerFormRequest($input);
+        dd($validateRequest);
         //todo:: need to encryption key(secret key)
         //todo:: need to handle the teacher data for batch
         //todo:: need to make a shorthand name
