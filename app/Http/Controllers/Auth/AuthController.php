@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterFormRequest;
 use App\Mail\RegisterMail;
@@ -11,11 +12,11 @@ use mysql_xdevapi\Exception;
 
 class AuthController extends Controller
 {
-    protected $repo;
+    protected $authrepository;
 
-    public function __construct(AuthRepository $authRepository)
+    public function __construct(AuthRepository $AuthRepository)
     {
-       $this->repo = $authRepository;
+       $this->authrepository = $AuthRepository;
     }
     /**
      * Store a newly created resource in storage.
@@ -29,8 +30,9 @@ class AuthController extends Controller
     {
         $input = $request->all();
         $input["password"] = bcrypt($input["password"]);
+        $snaked_request = Helper::changeRequestSnakeCase($input);
         try {
-            $user = $this->repo->createUser($input);
+            $user = $this->authrepository->createUser($snaked_request);
         }
         catch (\Exception $e){
             return response()->json(['error' => $e],422);

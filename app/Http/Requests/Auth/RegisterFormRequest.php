@@ -26,9 +26,9 @@ class RegisterFormRequest extends FormRequest
         return [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'user_type' => 'required|in::student,alumni,teacher',
+            'userType' => 'required|in::student,alumni,teacher',
             'batch' => 'required|string',
+            'password'  =>  'required|min:6|confirmed',
         ];
     }
 }
