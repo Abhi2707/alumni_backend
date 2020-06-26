@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
+use http\Env\Request;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class RegisterFormRequest extends FormRequest
 {
@@ -27,8 +29,11 @@ class RegisterFormRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'userType' => 'required|in::student,alumni,teacher',
-            'batch' => 'required|string',
-            'password'  =>  'required|min:6|confirmed',
+            'batch' => 'string',
+            'password'  =>  'required|min:6',
+            'confirmationPassword'  =>  'required|same:password',
         ];
     }
+
+
 }

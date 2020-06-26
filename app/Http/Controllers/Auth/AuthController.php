@@ -29,6 +29,9 @@ class AuthController extends Controller
     public function register(RegisterFormRequest $request)
     {
         $input = $request->all();
+        //todo:: need to encryption key(secret key)
+        //todo:: need to handle the teacher data for batch
+        //todo:: need to make a shorthand name
         $input["password"] = bcrypt($input["password"]);
         $snaked_request = Helper::changeRequestSnakeCase($input);
         try {

@@ -27,7 +27,8 @@ class AuthRepository
 
     public function createUser($input){
         $user = $this->userRepository->create($input);
-        $user->notify(new RegisterSuccessMail($user->name));
+        //todo ::  need to build a email functionality later
+        //$user->notify(new RegisterSuccessMail($user->name));
         $success['token'] =  $user->createToken('MyApp')->accessToken;
         $success['name'] =  $user->name;
         return $success;
