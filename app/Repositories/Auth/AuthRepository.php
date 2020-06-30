@@ -5,8 +5,10 @@ namespace App\Repositories\Auth;
 
 
 
+use App\Helpers\Helper;
 use App\Notifications\RegisterSuccessMail;
 use Illuminate\Support\Facades\Auth;
+
 
 class AuthRepository
 {
@@ -27,12 +29,18 @@ class AuthRepository
      */
 
     public function register($request){
-        $user = $this->userRepository->create($request);
-        //todo ::  need to build a email functionality later
-        //$user->notify(new RegisterSuccessMail($user->name));
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
-        $success['name'] =  $user->name;
-        return $success;
+        try{
+            $user = $this->userRepository->create($request);
+            //todo ::  need to build a email functionality later
+            //$user->notify(new RegisterSuccessMail($user->name));
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['name'] =  $user->name;
+            $success["shortName"] = Helper::makeAcronym($user->name);
+            return  response()->json($success,201);
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e],422);
+        }
     }
 
     /**
@@ -49,11 +57,12 @@ class AuthRepository
             $user = Auth::user();
             $success['token'] =  $user->createToken('MyApp')-> accessToken;
             $success['id'] = $user->id;
-            $success['userName'] = $user->first_name;
-            return response()->json(['success' => $success], $this-> successStatus);
+            $success['name'] = $user->name;
+            $success["shortName"] = Helper::makeAcronym($user->name);
+            return $success;
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return response()->json(['error'=>'Unauthorised','message' => 'the requested data is invalid'], 401);
         }
     }
 

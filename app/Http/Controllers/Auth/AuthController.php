@@ -28,18 +28,9 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        //
-        try {
-            $user = $this->authrepository->login($request);
-        }
-        catch (\Exception $e){
-            return response()->json(['error' => $e],422);
-        }
-        return response()->json(['success'=>$user],200);
+        $user = $this->authrepository->login($request);
+        return $user;
     }
-
-
-
 
     /**
      * Store a newly created resource in storage.
@@ -51,19 +42,18 @@ class AuthController extends Controller
      */
     public function register(RegisterFormRequest $request)
     {
-        $input = $request->all();
         //todo:: need to encryption key(secret key)
         //todo:: need to handle the teacher data for batch
         //todo:: need to make a shorthand name
+        $input = $request->all();
         $input["password"] = bcrypt($input["password"]);
+        if(@$input["userType"]==="teacher"){
+            $input = collect($input)->except('batch')->all();
+        }
         $snaked_request = Helper::changeRequestSnakeCase($input);
-        try {
-            $user = $this->authrepository->register($snaked_request);
-        }
-        catch (\Exception $e){
-            return response()->json(['error' => $e],422);
-        }
-        return response()->json(['success'=>$user],201);
+        $user = $this->authrepository->register($snaked_request);
+        return $user;
+
     }
 
 

@@ -26,22 +26,13 @@ class RegisterFormRequest extends FormRequest
      */
     public function rules()
     {
-
-           return [
+        return [
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users',
-                'userType' => 'required|in::student,alumni,teacher',
-                'batch' => 'string',
+                'userType' => 'required|in::userType,alumni,teacher,student',
+                'batch' => 'required_if:userType,==,alumni|required_if:userType,==,student|string',
                 'password'  =>  'required|min:6',
                 'confirmationPassword'  =>  'required|same:password',
             ];
-
     }
-
-    protected function failedValidation(Validator $validator) {
-        $request =  \Illuminate\Http\Request::all();
-        $request["error"] =  $validator->errors();
-        throw new HttpResponseException(response()->json($request, 422));
-    }
-
 }
