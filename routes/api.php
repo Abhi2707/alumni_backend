@@ -53,4 +53,16 @@ Route::group(['prefix' => 'v1' , 'middleware' => 'cors'], function () {
     */
         Route::post('register', 'Auth\AuthController@register');
     });
+    /*
+    |--------------------------------------------------------------------------
+    | @route  Post api/v1/user_detail
+    | @desc   Return all registered users
+    | @access Private
+    |--------------------------------------------------------------------------
+    */
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('user_detail', 'Auth\AuthController@user_detail');
+    });
+
+
 });

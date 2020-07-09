@@ -31,9 +31,5 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
-        $request =  \Illuminate\Http\Request::all();
-        $request["error"] =  $validator->errors();
-        throw new HttpResponseException(response()->json($request, 422));
-    }
+
 }

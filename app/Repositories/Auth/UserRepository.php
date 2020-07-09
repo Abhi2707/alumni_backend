@@ -27,4 +27,16 @@ class UserRepository
     public function create($input){
         return $this->user::create($input);
     }
+
+    /**
+     * Retrive all the user in storage.
+     * @all_users
+     *
+     * @return
+     * @all_users function
+     *
+     */
+    public function all_users(){
+        return $this->user::all();
+    }
 }

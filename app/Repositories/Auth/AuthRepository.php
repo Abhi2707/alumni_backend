@@ -55,15 +55,33 @@ class AuthRepository
     public function login($request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user();
-            $success['token'] =  $user->createToken('MyApp')-> accessToken;
+            /*$success['token'] =  $user->createToken('MyApp')-> accessToken;*/
+            $token =  $user->createToken('MyApp')-> accessToken;
             $success['id'] = $user->id;
             $success['name'] = $user->name;
             $success["shortName"] = Helper::makeAcronym($user->name);
-            return $success;
+            return response($success)->withCookie(cookie()->forever('token', $token));
         }
         else{
             return response()->json(['error'=>'Unauthorised','message' => 'the requested data is invalid'], 401);
         }
+    }
+    /**
+     * Retrive all the user functionality
+     * @all_user
+     * @param  $request
+     * @return $success
+     * @all_users function
+     *
+     */
+    public function all_users(){
+        try {
+            $users = $this->userRepository->all_users();
+        }
+        catch (\Exception $e){
+            return response()->json(['error' => $e],422);
+        }
+        return  response()->json($users,200);
     }
 
 }

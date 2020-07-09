@@ -18,6 +18,7 @@ class AuthController extends Controller
     public function __construct(AuthRepository $AuthRepository)
     {
        $this->authrepository = $AuthRepository;
+
     }
 
     /**
@@ -55,20 +56,21 @@ class AuthController extends Controller
         return $user;
 
     }
-
-
-
-
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Get all user details.
+     * @POST api/v1/user_details
+     * @param  \Illuminate\Http\Request  $request
+     * @return
+     * @user_detail function
+     * private route
      */
-    public function edit($id)
-    {
-        //
+
+
+    public function user_detail(Request $request){
+        $users = $this->authrepository->all_users();
+        return $users;
     }
+
 
     /**
      * Update the specified resource in storage.
