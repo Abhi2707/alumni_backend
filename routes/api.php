@@ -99,5 +99,18 @@ Route::group(['prefix' => 'v1' , 'middleware' => 'cors'], function () {
         });
     });
 
-
+    /*
+    |--------------------------------------------------------------------------
+    | @route  Post api/v1/profile
+    | @desc   get and post the profile and also bootstrap
+    | @access Private
+    |--------------------------------------------------------------------------
+    */
+    Route::group(['prefix'=>'profile'],function (){
+        Route::get('/bootstrap', 'Profile\ProfileController@bootstrap')->name('profile.bootstrap');
+        Route::group(['prefix'=>'/{id?}'],function () {
+            Route::get('', 'Profile\ProfileController@get');
+            Route::post('', 'Profile\ProfileController@store');
+        });
+    });
 });
