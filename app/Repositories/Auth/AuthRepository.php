@@ -33,10 +33,10 @@ class AuthRepository
             $user = $this->userRepository->create($request);
             //todo ::  need to build a email functionality later
             //$user->notify(new RegisterSuccessMail($user->name));
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $token =  $user->createToken('MyApp')->accessToken;
             $success['name'] =  $user->name;
             $success["shortName"] = Helper::makeAcronym($user->name);
-            return  response()->json($success,201);
+            return  response($success,201)->header('token',$token);
         }
         catch (\Exception $e){
             return response()->json(['error' => $e],422);
@@ -60,7 +60,10 @@ class AuthRepository
             $success['id'] = $user->id;
             $success['name'] = $user->name;
             $success["shortName"] = Helper::makeAcronym($user->name);
-            return response($success)->withCookie(cookie()->forever('token', $token));
+            //return response($success)->withCookie(cookie()->forever('token', $token));
+            /*return response($success)
+                ->withCookie(cookie('token', $token, $minute = 10));*/
+            return response($success)->header('token',$token);
         }
         else{
             return response()->json(['error'=>'Unauthorised','message' => 'the requested data is invalid'], 401);

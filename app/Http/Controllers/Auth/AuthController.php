@@ -7,19 +7,40 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterFormRequest;
 use App\Repositories\Auth\AuthRepository;
+use App\Repositories\Core\Batch\BatchRepository;
+use App\Repositories\Core\School\SchoolRepository;
 use Illuminate\Http\Request;
 
 
 class AuthController extends Controller
 {
     protected $authrepository;
+    protected $schoolRepository;
+    protected $batchRepository;
 
 
-    public function __construct(AuthRepository $AuthRepository)
+    public function __construct(AuthRepository $AuthRepository, BatchRepository $batchRepository, SchoolRepository $schoolRepository)
     {
        $this->authrepository = $AuthRepository;
-
+       $this->batchRepository = $batchRepository;
+       $this->schoolRepository = $schoolRepository;
     }
+
+    /**
+     * Display the specified resource.
+     * @GET api/v1/auth/bootstrap
+     * @param \Illuminate\Http\Request  $request
+     * @return
+     */
+
+    public function bootstrap(){
+        $bootstrapping = [];
+        $bootstrapping["schools"] = $this->schoolRepository->all();
+        $bootstrapping["batches"] = $this->batchRepository->all();
+        return response()->json($bootstrapping,200);
+    }
+
+
 
     /**
      * Display the specified resource.

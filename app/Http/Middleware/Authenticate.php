@@ -12,9 +12,7 @@ class Authenticate extends Middleware
     {
         if ($request->cookie('token')) {
             $request->headers->set('Authorization', 'Bearer ' . $request->cookie('token'));
-
         }
-
         $this->authenticate($request, $guards);
         return $next($request);
     }

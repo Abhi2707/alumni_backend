@@ -38,7 +38,15 @@ Route::group(['prefix' => 'v1' , 'middleware' => 'cors'], function () {
     Route::group(['prefix' => 'auth'], function () {
     /*
     |--------------------------------------------------------------------------
-    | @route  Post api/v1/login
+    | @route  GET api/v1/auth/bootstrap
+    | @desc   Bootstrap of auth
+    | @access Public
+    |--------------------------------------------------------------------------
+    */
+        Route::get('bootstrap', 'Auth\AuthController@bootstrap');
+    /*
+    |--------------------------------------------------------------------------
+    | @route  Post api/v1/auth/login
     | @desc   Login
     | @access Public
     |--------------------------------------------------------------------------
@@ -46,7 +54,7 @@ Route::group(['prefix' => 'v1' , 'middleware' => 'cors'], function () {
         Route::post('login', 'Auth\AuthController@login');
     /*
     |--------------------------------------------------------------------------
-    | @route  Post api/v1/Register
+    | @route  Post api/v1/auth/Register
     | @desc   Register the user
     | @access Public
     |--------------------------------------------------------------------------
@@ -62,6 +70,33 @@ Route::group(['prefix' => 'v1' , 'middleware' => 'cors'], function () {
     */
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('user_detail', 'Auth\AuthController@user_detail');
+    });
+    /*
+    |--------------------------------------------------------------------------
+    | @route  Post api/v1/school
+    | @desc   get and post the school
+    | @access Public
+    |--------------------------------------------------------------------------
+    */
+    Route::group(['prefix'=>'school'],function (){
+        Route::post('/upload_csv', 'Core\School\SchoolController@upload_csv')->name('upload_csv');
+        Route::group(['prefix'=>'/{id?}'],function () {
+            Route::get('', 'Core\School\SchoolController@get');
+            Route::post('', 'Core\School\SchoolController@store');
+        });
+    });
+    /*
+    |--------------------------------------------------------------------------
+    | @route  Post api/v1/batch
+    | @desc   get and post the batch
+    | @access Public
+    |--------------------------------------------------------------------------
+    */
+    Route::group(['prefix'=>'batch'],function (){
+        Route::group(['prefix'=>'/{id?}'],function () {
+            Route::get('', 'Core\Batch\BatchController@get');
+            Route::post('', 'Core\Batch\BatchController@store');
+        });
     });
 
 

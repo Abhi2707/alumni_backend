@@ -19,10 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('batch')->nullable();
             $table->string('user_type');
+            $table->integer('school_id')->unsigned()->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('school_id')->references('id')->on('ref_schools')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
