@@ -57,17 +57,16 @@ class MediaController extends Controller
             $data = base64_decode($data);
             $name = Str::random(6);
             if ($image_type === "profile"){
-                Storage::disk('local')->put('profile/'.$name.'.'.Str::afterLast($type,'/'),$data);
-                $url = Storage::disk('local')->url($name);
+                Storage::disk('public')->put('profile/'.$name.'.'.Str::afterLast($type,'/'),$data);
+                $url = Storage::disk('public')->url($name);
             }
             elseif ($image_type === "cover"){
-                Storage::disk('local')->put('cover/'.$name.'.'.Str::afterLast($type,'/'),$data);
-                $url = Storage::disk('local')->url($name);
-
+                Storage::disk('public')->put('cover/'.$name.'.'.Str::afterLast($type,'/'),$data);
+                $url = Storage::disk('public')->url($name);
             }
             else{
-                Storage::disk('local')->put('other/'.$name.'.'.Str::afterLast($type,'/'),$data);
-                $url = Storage::disk('local')->url($name);
+                Storage::disk('public')->put('other/'.$name.'.'.Str::afterLast($type,'/'),$data);
+                $url = Storage::disk('public')->url($name);
             }
 
         }
