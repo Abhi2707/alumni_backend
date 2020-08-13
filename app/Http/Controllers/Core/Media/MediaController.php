@@ -68,7 +68,6 @@ class MediaController extends Controller
                 Storage::disk('public')->put('other/'.$name.'.'.Str::afterLast($type,'/'),$data);
                 $url = Storage::disk('public')->url($name);
             }
-
         }
         $input = ["name" => $name,'url' => $url,'mime_type'=> Str::afterLast($type,'/')];
         $snaked_request = Helper::changeRequestSnakeCase($input);

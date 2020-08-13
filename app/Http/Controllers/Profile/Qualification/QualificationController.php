@@ -2,19 +2,30 @@
 
 namespace App\Http\Controllers\Profile\Qualification;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Repositories\Profile\Qualification\QualificationRepository;
 use Illuminate\Http\Request;
 
 class QualificationController extends Controller
 {
+
+    protected $qualificationRepository;
+    public function __construct(QualificationRepository $qualificationRepository)
+    {
+        $this->qualificationRepository = $qualificationRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get($id=null,Request $request)
     {
         //
+        $response = $this->qualificationRepository->findByUserId($id);
+        return $this->successResponse(Helper::customResponseCamelCase($response),'Get qualification By User Id',200);
     }
 
     /**

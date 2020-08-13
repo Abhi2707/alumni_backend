@@ -13,6 +13,7 @@ use App\Repositories\Profile\Experience\ExperienceRepository;
 use App\Repositories\Profile\ProfileRepository;
 use App\Repositories\Profile\Qualification\QualificationRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class ProfileController extends Controller
@@ -52,7 +53,9 @@ class ProfileController extends Controller
             }
             $query_builder = $this->profileRepository->getByIds($query_builder,$id);
         }
-        return $query_builder->get();
+        /*return collect($query_builder->get())->map(function ($item,$key) { return collect($item)
+            ->flatMap(function ($item1,$key1) { return [Str::camel($key1)=>$item1];});});*/
+          return Helper::customResponseCamelCase($query_builder->get());
       }
 
     /**

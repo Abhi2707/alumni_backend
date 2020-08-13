@@ -47,4 +47,10 @@ class Helper
         return Str::upper(implode("",$acronym));
     }
 
+    public static function customResponseCamelCase($value){
+       $value =  $value->map(function ($item,$key) { return collect($item)
+            ->flatMap(function ($item1,$key1) { return [Str::camel($key1)=>$item1];});});
+        return $value;
+    }
+
 }

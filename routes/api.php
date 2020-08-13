@@ -113,7 +113,50 @@ Route::group(['prefix' => 'v1' , 'middleware' => 'cors'], function () {
                 Route::get('', 'Profile\ProfileController@get');
                 Route::post('', 'Profile\ProfileController@store');
             });
+
+            /*
+       |--------------------------------------------------------------------------
+       | @route  Post api/v1/experiences
+       | @desc   get and post the experience and also bootstrap
+       | @access Private
+       |--------------------------------------------------------------------------
+       */
+            Route::group(['prefix'=>'experiences'],function (){
+                Route::get('/bootstrap', 'Profile\ProfileController@bootstrap')->name('profile.bootstrap');
+                Route::group(['prefix'=>'/{id?}'],function () {
+                    Route::get('', 'Profile\Experience\ExperienceController@get');
+                    Route::post('', 'Profile\Experience\ExperienceController@store');
+                });
+            });
+            /*
+            |--------------------------------------------------------------------------
+            | @route  Post api/v1/qualifications
+            | @desc   get and post the qualification and also bootstrap
+            | @access Private
+            |--------------------------------------------------------------------------
+            */
+            Route::group(['prefix'=>'qualification'],function (){
+                Route::get('/bootstrap', 'Profile\ProfileController@bootstrap')->name('profile.bootstrap');
+                Route::group(['prefix'=>'/{id?}'],function () {
+                    Route::get('', 'Profile\Qualification\QualificationController@get');
+                    Route::post('', 'Profile\Qualification\QualificationController@store');
+                });
+            });
+            /*
+            |--------------------------------------------------------------------------
+            | @route  Post api/v1/achievements
+            | @desc   get and post the achievements and also bootstrap
+            | @access Private
+            |--------------------------------------------------------------------------
+            */
+            Route::group(['prefix'=>'achievements'],function (){
+                Route::get('/bootstrap', 'Profile\AchievementController@bootstrap')->name('profile.bootstrap');
+                Route::group(['prefix'=>'/{id?}'],function () {
+                    Route::get('', 'Profile\Achievement\AchievementController@get');
+                    Route::post('', 'Profile\Achievement\AchievementController@store');
+                });
+            });
+
         });
     });
-
 });

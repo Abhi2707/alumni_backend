@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Profile\Achievement;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Repositories\Profile\Achievement\AchievementRepository;
 use Illuminate\Http\Request;
@@ -14,12 +15,21 @@ class AchievementController extends Controller
     {
         $this->achievementRepository = $achievementRepository;
     }
+
+    public function get($id=null,Request$request){
+        $response = $this->achievementRepository->findByUserId($id);
+        return $this->successResponse(Helper::customResponseCamelCase($response),'Get Achievements By User Id',200);
+    }
+
+
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function get($id=null,Request$request)
+    public function getNew($id=null,Request$request)
     {
         $request->merge(['filters'=>json_decode($request->filters,true)]);
         $query_builder = $this->achievementRepository->filter($request->filters);

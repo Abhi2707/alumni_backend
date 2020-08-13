@@ -72,5 +72,17 @@ class AchievementRepository
         }
         return response([],201);
     }
+    /**
+     * Retrive all the achievement in according to userId
+     * @getByUserId
+     *
+     * @return
+     * @filter function
+     *
+     */
+    public function findByUserId($id){
+        $response = $this->achievement->where("user_id",'=',$id);
+        return $response->get();
+    }
 
 }
