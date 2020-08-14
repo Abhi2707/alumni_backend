@@ -13,14 +13,7 @@ class RefSchool extends Migration
      */
     public function up()
     {
-        Schema::create('ref_schools', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('district')->nullable();
-            $table->string('school_name')->unique();
-            $table->string('address')->nullable();
-            $table->boolean('status')->default(true);
-            $table->timestamps();
-        });
+
     }
 
     /**
@@ -31,6 +24,6 @@ class RefSchool extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('ref_schools');
+
     }
 }

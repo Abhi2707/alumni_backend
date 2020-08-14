@@ -75,19 +75,19 @@ class ProfileController extends Controller
         }
         if (@filled($input["coverImage"])) {
             $image_data = $this->mediaController->store($input["coverImage"],$type="cover")->getData(true);
-            $input["profileImageUrl"] =  $image_data["data"]["url"];
-            $input["profileImageId"] =  $image_data["data"]["id"];
+            $input["coverImageUrl"] =  $image_data["data"]["url"];
+            $input["coverImageId"] =  $image_data["data"]["id"];
         }
         if (@filled($input["experiences"])){
-            $input["current_experience"] = collect(json_decode($this->experienceRepository->create($input["experiences"])->content(),true))->first();
-            $input["current_experience"] = Helper::changeResponseCamelCase($input["current_experience"]);
+            $input["currentWorkStatus"] = collect(json_decode($this->experienceRepository->create($input["experiences"])->content(),true))->first();
+            $input["currentWorkStatus"] = Helper::changeResponseCamelCase($input["currentWorkStatus"]);
         }
         else{
             $input["current_experience"] = [];
         }
         if (@filled($input["qualifications"])){
             $input["qualifications"] = collect(json_decode($this->qualificationRepository->create($input["qualifications"])->content(),true))->first();
-            $input["qualifications"] = Helper::changeResponseCamelCase($input["current_experience"]);
+            $input["qualifications"] = Helper::changeResponseCamelCase($input["qualifications"]);
         }
         if (@filled($input["achievements"])){
             $input["achievements"] = collect(json_decode($this->achievementsRepository->create($input["achievements"])->content(),true))->first();

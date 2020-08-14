@@ -39,7 +39,7 @@ class AuthRepository
             return  response($success,201)->header('token',$token);
         }
         catch (\Exception $e){
-            return response()->json(['error' => $e],422);
+            return response()->json(['error' => $e->getMessage()],422);
         }
     }
 

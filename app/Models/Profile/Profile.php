@@ -10,7 +10,7 @@ class Profile extends Model
     //
     protected $table = 'profiles';
     protected $casts = [
-        'current_experience' => 'json',
+        'current_work_status' => 'json',
         'phone_number1' => 'json'  ,
         'phone_number2' => 'json'
     ];
@@ -21,7 +21,7 @@ class Profile extends Model
         'cover_image_url',
         'profile_image_url',
         'current_location',
-        'current_experience',
+        'current_work_status',
         'date_of_birth',
         'phone_number1',
         'phone_number2',

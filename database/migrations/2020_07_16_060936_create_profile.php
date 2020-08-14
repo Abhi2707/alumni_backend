@@ -37,7 +37,7 @@ class CreateProfile extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned()->index();
             $table->date('from_year');
-            $table->date('to_year');
+            $table->date('to_year')->nullable();
             $table->string('company_name')->nullable();
             $table->string('designation')->nullable();
             $table->boolean('is_current')->default(false);
